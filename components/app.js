@@ -1,4 +1,5 @@
 import React from 'react';
+require('!style!css!bootstrap/dist/css/bootstrap.css');
 
 class Hello extends React.Component {
     render() {

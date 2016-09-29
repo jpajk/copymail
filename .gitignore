@@ -3,3 +3,8 @@
 /node_modules/
 /app/static/js/*
 /app/static/css/*
+*.woff
+*.woff2
+*.svg
+*.eot
+*.ttf
