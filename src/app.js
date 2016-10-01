@@ -1,10 +1,32 @@
 import React from 'react';
-require('!style!css!bootstrap/dist/css/bootstrap.css');
+import Base from './components/Base';
 
-class App extends React.Component {
+require('!style!css!bootstrap/dist/css/bootstrap.css');
+require('./assets/sass/style.scss')
+
+const App = React.createClass({
+    getInitialState() {
+        return {
+            file    : '',
+            response: '',
+        };
+    },
+
+    handleDataChange(data) {
+        this.setState({
+            file    : (typeof data.file != "undefined") ?  data.file : '',
+            response: (typeof data.response != "undefined") ?  data.response : ''
+        });
+    },
+
     render() {
-        return <h1>Hello</h1>
+        return (
+            <Base
+                state={this.state}
+                handle={this.handleDataChange}
+            />
+        );
     }
-}
+});
 
 export default App;

@@ -1,0 +1,26 @@
+#root {
+  > .container {
+    max-width: 768px;
+
+    .jumbotron {
+      margin-top: 30px;
+
+      > h2 {
+        text-align: center;
+        margin-bottom: 15px;
+      }
+
+      .uploader-wrap {
+        text-align: center;
+
+        input {
+          margin-bottom: 30px;
+        }
+
+        button {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
