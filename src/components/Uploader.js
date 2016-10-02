@@ -8,11 +8,16 @@ const Uploader = React.createClass({
     },
 
     handleSubmit() {
+        let formData = new FormData();
+        formData.append('file', this.props.state.file);
+
         fetch('/copymail',
             {
-                method: 'POST',
-                headers: new Headers(),
-                cache: 'default',
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json',
+                },
+                body: formData
             }
         ).then(function(res) {
             console.log(res);
