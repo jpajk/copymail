@@ -1,4 +1,5 @@
 #!/home/shikohin/miniconda3/envs/flask/bin/python
-from app import app
+from app import app, socketio
 
-app.run(debug=True)
+if __name__ == '__main__':
+    socketio.run(app)

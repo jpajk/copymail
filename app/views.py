@@ -1,4 +1,4 @@
-from app import app
+from app import app, socketio
 from flask import render_template, jsonify, request
 
 
@@ -18,3 +18,8 @@ def handle_ajax():
     }
 
     return jsonify(res)
+
+
+@socketio.on('connect')
+def handle_message():
+    print('Socket is connected')
