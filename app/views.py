@@ -23,3 +23,8 @@ def handle_ajax():
 @socketio.on('connect')
 def handle_message():
     print('Socket is connected')
+
+
+@socketio.on('file_loaded')
+def file_loaded(file):
+    print('File is loaded ' + str(type(file)))

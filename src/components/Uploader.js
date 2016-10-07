@@ -1,33 +1,18 @@
 import React from 'react';
-import 'whatwg-fetch';
+import MessageBox from './MessageBox';
 
 const Uploader = React.createClass({
     propTypes: {
         state: React.PropTypes.object.isRequired,
-        handle: React.PropTypes.func.isRequired
+        handle: React.PropTypes.func.isRequired,
+        handleMessages: React.PropTypes.func.isRequired
     },
 
-    handleSubmit() {
-        let formData = new FormData();
-        formData.append('file', this.props.state.file);
-
-        fetch('/copymail',
-            {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                },
-                body: formData
-            }
-        ).then(function(res) {
-            console.log(res);
-        });
-    },
-    // todo: validate file size, raise errors
-    loadFile(e) {
-        this.props.handle({
-            file: e.target.files[0]
-        });
+    validationMethods: {
+        'validateFileSize': function(file) {
+            let max = 10000000;
+            return (file.size > max) ? 0 : null;
+        }
     },
 
     render() {
@@ -36,9 +21,37 @@ const Uploader = React.createClass({
                 <div className="col-xs-12">
                     <input onChange={this.loadFile} type="file" className="form-control" />
                 </div>
+                <MessageBox messages={this.props.state.messages} />
                 <button onClick={this.handleSubmit} className="btn btn-primary">Submit</button>
             </div>
         );
+    },
+    // todo: validate file size, raise errors
+    loadFile(e) {
+        let file = e.target.files[0];
+
+        this.props.handle({
+            file: file
+        });
+
+        this.validateFile(file);
+    },
+
+    validateFile(file) {
+        let messages = [];
+        let methods = this.validationMethods;
+
+        for (var key in methods) {
+            if (methods.hasOwnProperty(key)) {
+                let c = methods[key];
+                let result = c(file);
+
+                if (result >= 0)
+                    messages.push(result);
+            }
+        }
+
+        this.props.handleMessages(messages);
     }
 });
 

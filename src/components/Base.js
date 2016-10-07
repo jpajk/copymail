@@ -16,6 +16,7 @@ const Base = React.createClass({
                         <Uploader
                             state={this.props.state}
                             handle={this.props.handle}
+                            handleMessages={this.props.handleMessages}
                         />
                     </div>
                 </div>

@@ -11,14 +11,16 @@ const App = React.createClass({
             <Base
                 state={this.state}
                 handle={this.handleDataChange}
+                handleMessages={this.handleMessagesChange}
             />
         );
     },
 
     getInitialState() {
         return {
-            file    : '',
-            response: '',
+            file         : null,
+            socket       : null,
+            messages     : []
         };
     },
 
@@ -28,14 +30,30 @@ const App = React.createClass({
             response: (typeof data.response != "undefined") ?  data.response : ''
         });
     },
+    // Foreach of the messages check the state messages. Add non-existent, remove redundant
+    handleMessagesChange(messages) {
+        let stateMessages = this.state.messages;
+        console.log(messages);
+
+        for (let message in messages) {
+            if (stateMessages.indexOf(message) === -1) {
+                stateMessages.push(parseInt(message));
+            }
+        }
+
+        for (let message in this.state.messages) {
+            if (messages.indexOf(parseInt(message)) === -1) {
+                let i = stateMessages.indexOf(parseInt(message));
+                stateMessages.splice(i, 1);
+            }
+        }
+
+        this.setState({messages: stateMessages});
+    },
 
     componentWillMount() {
         let socket = io.connect('http://' + document.domain + ':' + location.port);
-
-        socket.on('connect', function() {
-            console.log('Connected');
-            socket.emit('my event', {data: 'I\'m connected!'});
-        });
+        this.setState({socket: socket})
     }
 });
 
