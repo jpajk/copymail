@@ -33,7 +33,6 @@ const App = React.createClass({
     // Foreach of the messages check the state messages. Add non-existent, remove redundant
     handleMessagesChange(messages) {
         let stateMessages = this.state.messages;
-        console.log(messages);
 
         for (let message in messages) {
             if (stateMessages.indexOf(message) === -1) {

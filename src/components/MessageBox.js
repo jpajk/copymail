@@ -6,7 +6,6 @@ const MessageBox = React.createClass({
     },
 
     render() {
-        console.log(this.props.messages);
         return (
             <div className="message-box" style={{width: '100%', display: 'inline-block'}}>
                 {this.props.messages.map((message, idx) => {

@@ -33,6 +33,8 @@ const Uploader = React.createClass({
         this.props.handle({
             file: file
         });
+        console.log('I\'m emitting');
+        this.props.state.socket.emit('file_loaded', {file: file});
 
         this.validateFile(file);
     },
@@ -46,7 +48,7 @@ const Uploader = React.createClass({
                 let c = methods[key];
                 let result = c(file);
 
-                if (result >= 0)
+                if (result !== null && result >= 0)
                     messages.push(result);
             }
         }
