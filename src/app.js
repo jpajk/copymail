@@ -18,9 +18,12 @@ const App = React.createClass({
 
     getInitialState() {
         return {
-            file         : null,
-            socket       : null,
-            messages     : []
+            file           : null,
+            socket         : null,
+            messages       : [],
+            currentMessage : '',
+            copying        : false,
+            progress       : 0
         };
     },
 
@@ -30,28 +33,25 @@ const App = React.createClass({
             response: (typeof data.response != "undefined") ?  data.response : ''
         });
     },
-    // Foreach of the messages check the state messages. Add non-existent, remove redundant
+
     handleMessagesChange(messages) {
-        let stateMessages = this.state.messages;
-
-        for (let message in messages) {
-            if (stateMessages.indexOf(message) === -1) {
-                stateMessages.push(parseInt(message));
-            }
-        }
-
-        for (let message in this.state.messages) {
-            if (messages.indexOf(parseInt(message)) === -1) {
-                let i = stateMessages.indexOf(parseInt(message));
-                stateMessages.splice(i, 1);
-            }
-        }
-
-        this.setState({messages: stateMessages});
+        this.setState({messages: messages});
     },
 
     componentWillMount() {
         let socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('starting_cpimap', function() {
+            this.setState({copying: true, progress: 0});
+        });
+
+        socket.on('update_progress', function(data) {
+            this.setState({
+                progress: data.progress,
+                currentMessage: data.currentMessage
+            });
+        });
+
         this.setState({socket: socket})
     }
 });

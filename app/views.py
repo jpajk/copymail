@@ -1,7 +1,7 @@
 from app import app, socketio
 from flask import render_template
-from pprint import pprint
-import magic
+from .cpmails import cpimap
+import csv
 
 
 @app.route('/')
@@ -16,6 +16,15 @@ def handle_message():
 
 @socketio.on('file_loaded')
 def file_loaded(file):
-    pprint(file)
-    pprint(type(file['file']))
-    pprint(magic.from_file(file))
+    file_byte = file['file']
+    file_string = str(file_byte, 'utf-8')
+
+    reader = csv.reader(file_string.split('\n'), delimiter=',', quotechar='"')
+
+    for row in reader:
+        if len(row) != 6:
+            print('Row length not correct, skipping')
+            continue
+
+        cpimap(user1=row[0], host1=row[1], pass1=row[2],
+               user2=row[3], host2=row[4], pass2=row[5])

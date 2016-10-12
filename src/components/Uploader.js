@@ -12,6 +12,11 @@ const Uploader = React.createClass({
         'validateFileSize': function(file) {
             let max = 10000000;
             return (file.size > max) ? 0 : null;
+        },
+        'validateFileExtension': function(file) {
+            let acceptedExtension = 'text/csv';
+
+            return (file.type !== 'text/csv') ? 1 : null;
         }
     },
 
@@ -26,15 +31,20 @@ const Uploader = React.createClass({
             </div>
         );
     },
-    // todo: validate file size, raise errors
+    //Todo: raise error on wrong type
+    handleSubmit() {
+        let file = this.props.state.file;
+        console.log(file);
+        if (typeof file === 'object')
+            this.props.state.socket.emit('file_loaded', {file: file});
+    },
+
     loadFile(e) {
         let file = e.target.files[0];
 
         this.props.handle({
             file: file
         });
-        console.log('I\'m emitting');
-        this.props.state.socket.emit('file_loaded', {file: file});
 
         this.validateFile(file);
     },

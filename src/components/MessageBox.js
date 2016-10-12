@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactCSSTransitionGroup from "react/lib/ReactCSSTransitionGroup";
 
 const MessageBox = React.createClass({
     propTypes: {
@@ -33,7 +34,9 @@ const MessageBox = React.createClass({
     },
 
     getMessageTemplate(params, key) {
-        return <div key={key} className={params.className}>{params.messageContents}</div>
+        return (
+            <div key={key} className={params.className}>{params.messageContents}</div>
+        );
     }
 });
 
