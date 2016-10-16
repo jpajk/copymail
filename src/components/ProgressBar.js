@@ -1,11 +1,15 @@
 import React from 'react';
 
 const ProgressBar = React.createClass({
+    propTypes: {
+        progressValue: React.PropTypes.string.isRequired
+    },
+
     render() {
         return (
-            <div class="progress">
+            <div class="progress col-xs-12">
                 <div
-                    class="progress-bar progress-bar-success"
+                    className="progress-bar progress-bar-success"
                     role="progressbar"
                     style={{
                         width: this.props.progressValue + '%'

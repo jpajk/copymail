@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 
 require('!style!css!bootstrap/dist/css/bootstrap.css');
 require('./assets/sass/style.scss');
-
+// todo: remove errors after displayng
 const App = React.createClass({
     render() {
         return (
@@ -39,7 +39,10 @@ const App = React.createClass({
     },
 
     componentWillMount() {
-        let socket = io.connect('http://' + document.domain + ':' + location.port);
+        let socket = io.connect(document.location.protocol
+                                + '//'
+                                + document.domain
+                                + ':' + location.port);
         let app = this;
 
         socket.on('server_error', function(json) {

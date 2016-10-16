@@ -26,7 +26,7 @@ def cpimap(user1, host1, pass1, user2, host2, pass2):
         'initialize_progress',
         {
             'message': (host1, host2),
-            'process': (1, len(folders))
+            'progress': (1, len(folders))
         }
     )
 

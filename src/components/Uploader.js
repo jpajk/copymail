@@ -1,6 +1,7 @@
 import React from 'react';
 import MessageBox from './MessageBox';
 import ServerMessages from './ServerMessages';
+import ProgressBar from './ProgressBar';
 
 const Uploader = React.createClass({
     propTypes: {
@@ -29,6 +30,7 @@ const Uploader = React.createClass({
                 </div>
                 <MessageBox messages={this.props.state.messages} />
                 <ServerMessages serverMessage={this.props.state.currentMessage} />
+                {this.props.state.copying ? <ProgressBar progressValue=""/> : ''}
                 <button onClick={this.handleSubmit} className="btn btn-primary">Submit</button>
             </div>
         );

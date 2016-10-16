@@ -1,4 +1,5 @@
 from app import socketio
+from pprint import pprint
 
 
 class Messages():
@@ -26,13 +27,14 @@ class Messages():
         self.__relayServerMessage(msg, key, args)
 
     def __calculateProgress(self, *args):
-        current, total = args
+        return 0
 
     def __relayServerMessage(self, msg, key, args):
+        pprint(args)
         socketio.emit(
             key, {
                 'data': {
-                    'currentMessage': msg['currentMessage'](args['message']),
+                    'currentMessage': msg['currentMessage'](*args['message']),
                     'progress': (
                         0 if key is 'server_error'
                         else self.__calculateProgress(args['progress'])
