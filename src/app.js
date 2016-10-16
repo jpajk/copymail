@@ -57,6 +57,21 @@ const App = React.createClass({
             });
         });
 
+        socket.on('initialize_progress', function(json) {
+            console.log(json);
+            app.setState({
+                copying: true,
+                progress: json.data.progress,
+                currentMessage: json.data.currentMessage
+            });
+        });
+
+        socket.on('finish_progress', function(json) {
+            app.setState({
+                copying: false
+            });
+        });
+
         this.setState({socket: socket})
     }
 });

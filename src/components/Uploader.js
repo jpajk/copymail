@@ -33,10 +33,10 @@ const Uploader = React.createClass({
             </div>
         );
     },
-    //Todo: raise error on wrong type
+
     handleSubmit() {
         let file = this.props.state.file;
-        console.log(file);
+
         if (typeof file === 'object')
             this.props.state.socket.emit('file_loaded', {file: file});
     },

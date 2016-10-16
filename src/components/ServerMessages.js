@@ -4,6 +4,7 @@ const ServerMessages = React.createClass({
     propTypes: {
         serverMessage: React.PropTypes.string.isRequired,
     },
+    // Todo: implement message history
     render() {
         if (this.props.serverMessage === '')
             return (

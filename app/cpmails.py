@@ -1,26 +1,20 @@
 import imapclient
 import sys
 from .messages import Messages
-import os
-
-os.environ['http_proxy'] = ''
 
 
 def cpimap(user1, host1, pass1, user2, host2, pass2):
     context = imapclient.create_default_context()
+    messages = Messages()
 
-    M1 = imapclient.IMAPClient(host=host1, use_uid=True, ssl=False,
+    M1 = imapclient.IMAPClient(host=host1, use_uid=True, ssl=True,
                                ssl_context=context)
 
     M1.login(user1, pass1)
 
-    M2 = imapclient.IMAPClient(host=host2, use_uid=True, ssl=False,
+    M2 = imapclient.IMAPClient(host=host2, use_uid=True, ssl=True,
                                ssl_context=context)
     M2.login(user2, pass2)
-
-    print('before relaying')
-    Messages.relayMessage('initiate_copying', (host1, host2))
-    return None
 
     imap_folders = M1.xlist_folders()
     folders = []
@@ -28,7 +22,15 @@ def cpimap(user1, host1, pass1, user2, host2, pass2):
     for folder in imap_folders:
         folders.append(folder[-1])
 
-    print('Copying ' + str(len(folders)) + ' folders...')
+    messages.relayMessage(
+        'initialize_progress',
+        {
+            'message': (host1, host2),
+            'process': (1, len(folders))
+        }
+    )
+
+    return 1
 
     for f in folders:
         print('Copying ' + f)

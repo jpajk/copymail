@@ -3,7 +3,13 @@ from app import socketio
 
 class Messages():
     def __init__(self):
-        self.messages = {}
+        self.messages = {
+            'initialize_progress': {
+                'currentMessage': (
+                    lambda *x: "Copying messages from %s to %s" % x
+                )
+            }
+        }
 
         self.errorMessages = {
             'server_error': {
