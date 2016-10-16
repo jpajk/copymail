@@ -1,6 +1,7 @@
 from app import app, socketio
 from flask import render_template
 from .cpmails import cpimap
+from .messages import Messages
 import csv
 
 
@@ -26,5 +27,13 @@ def file_loaded(file):
             print('Row length not correct, skipping')
             continue
 
-        cpimap(user1=row[0], host1=row[1], pass1=row[2],
-               user2=row[3], host2=row[4], pass2=row[5])
+        try:
+            cpimap(user1=row[0], host1=row[1], pass1=row[2],
+                   user2=row[3], host2=row[4], pass2=row[5])
+        except Exception as e:
+            Messages().relayError(
+                'server_error',
+                {
+                    'message': str(e)
+                }
+            )

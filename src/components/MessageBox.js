@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactCSSTransitionGroup from "react/lib/ReactCSSTransitionGroup";
 
 const MessageBox = React.createClass({
     propTypes: {

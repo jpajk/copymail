@@ -1,5 +1,6 @@
 import React from 'react';
 import MessageBox from './MessageBox';
+import ServerMessages from './ServerMessages';
 
 const Uploader = React.createClass({
     propTypes: {
@@ -27,6 +28,7 @@ const Uploader = React.createClass({
                     <input onChange={this.loadFile} type="file" className="form-control" />
                 </div>
                 <MessageBox messages={this.props.state.messages} />
+                <ServerMessages serverMessage={this.props.state.currentMessage} />
                 <button onClick={this.handleSubmit} className="btn btn-primary">Submit</button>
             </div>
         );

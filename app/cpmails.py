@@ -1,21 +1,26 @@
 import imapclient
 import sys
-from app import socketio
+from .messages import Messages
+import os
+
+os.environ['http_proxy'] = ''
 
 
 def cpimap(user1, host1, pass1, user2, host2, pass2):
-    socketio.emit('starting_cpimap', {})
-    return None
-
     context = imapclient.create_default_context()
 
-    M1 = imapclient.IMAPClient(host=host1, use_uid=True, ssl=True,
+    M1 = imapclient.IMAPClient(host=host1, use_uid=True, ssl=False,
                                ssl_context=context)
+
     M1.login(user1, pass1)
 
-    M2 = imapclient.IMAPClient(host=host2, use_uid=True, ssl=True,
+    M2 = imapclient.IMAPClient(host=host2, use_uid=True, ssl=False,
                                ssl_context=context)
     M2.login(user2, pass2)
+
+    print('before relaying')
+    Messages.relayMessage('initiate_copying', (host1, host2))
+    return None
 
     imap_folders = M1.xlist_folders()
     folders = []

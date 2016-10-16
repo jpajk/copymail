@@ -40,15 +40,20 @@ const App = React.createClass({
 
     componentWillMount() {
         let socket = io.connect('http://' + document.domain + ':' + location.port);
+        let app = this;
 
-        socket.on('starting_cpimap', function() {
-            this.setState({copying: true, progress: 0});
+        socket.on('server_error', function(json) {
+            app.setState({
+                copying: false,
+                progress: json.data.progress,
+                currentMessage: json.data.currentMessage
+            });
         });
 
-        socket.on('update_progress', function(data) {
-            this.setState({
-                progress: data.progress,
-                currentMessage: data.currentMessage
+        socket.on('update_progress', function(json) {
+            app.setState({
+                progress: json.progress,
+                currentMessage: json.currentMessage
             });
         });
 
