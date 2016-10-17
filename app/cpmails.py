@@ -1,6 +1,6 @@
 import imapclient
-import sys
 from .messages import Messages
+from pprint import pprint
 
 
 def cpimap(user1, host1, pass1, user2, host2, pass2):
@@ -30,32 +30,41 @@ def cpimap(user1, host1, pass1, user2, host2, pass2):
         }
     )
 
-    return 1
+    print('folders: ')
+    pprint(folders)
 
-    for f in folders:
-        print('Copying ' + f)
-
+    for fi, f in enumerate(folders):
         if not M2.folder_exists(f):
             M2.create_folder(f)
 
         M1.select_folder(f)
 
-        print('Fetching messages...')
-
         uids = M1.search(['NOT', 'DELETED'])
 
         print('Found ' + str(len(uids)) + ' messages')
 
-        for m in uids:
+        for mi, m in enumerate(uids):
             message = M1.fetch(m, 'RFC822')
-            sys.stdout.write('.')
-            sys.stdout.flush()
             message_body = message[m][b'RFC822']
             M2.append(f, message_body)
 
-        sys.stdout.write("\n")
+            messages.relayMessage(
+                'update_progress',
+                {
+                    'message': (fi + 1, len(folders)),
+                    'progress': (mi + 1, len(uids) + 1)
+                }
+            )
 
     M1.logout()
     M2.logout()
 
-    print("Done copying")
+    messages.relayMessage(
+        'finish_progress',
+        {
+            'message': (host1, host2),
+            'progress': (0, 0)
+        }
+    )
+
+    # Handle end of the process

@@ -2,12 +2,12 @@ import React from 'react';
 
 const ProgressBar = React.createClass({
     propTypes: {
-        progressValue: React.PropTypes.string.isRequired
+        progressValue: React.PropTypes.number.isRequired
     },
 
     render() {
         return (
-            <div class="progress col-xs-12">
+            <div className="progress col-xs-12">
                 <div
                     className="progress-bar progress-bar-success"
                     role="progressbar"
@@ -15,7 +15,7 @@ const ProgressBar = React.createClass({
                         width: this.props.progressValue + '%'
                     }}
                 >
-                    <span class="sr-only">{this.props.progressValue}</span>
+                    <span className="sr-only">{this.props.progressValue}</span>
                 </div>
             </div>
         );

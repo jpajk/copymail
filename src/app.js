@@ -55,8 +55,8 @@ const App = React.createClass({
 
         socket.on('update_progress', function(json) {
             app.setState({
-                progress: json.progress,
-                currentMessage: json.currentMessage
+                progress: json.data.progress,
+                currentMessage: json.data.currentMessage
             });
         });
 
@@ -71,7 +71,9 @@ const App = React.createClass({
 
         socket.on('finish_progress', function(json) {
             app.setState({
-                copying: false
+                copying: false,
+                currentMessage: json.data.currentMessage,
+                progress: 0
             });
         });
 

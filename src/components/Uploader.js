@@ -23,6 +23,8 @@ const Uploader = React.createClass({
     },
 
     render() {
+        let progress = (this.props.state.copying) ? this.props.state.progress : 0;
+
         return (
             <div className="uploader-wrap">
                 <div className="col-xs-12">
@@ -30,8 +32,12 @@ const Uploader = React.createClass({
                 </div>
                 <MessageBox messages={this.props.state.messages} />
                 <ServerMessages serverMessage={this.props.state.currentMessage} />
-                {this.props.state.copying ? <ProgressBar progressValue=""/> : ''}
-                <button onClick={this.handleSubmit} className="btn btn-primary">Submit</button>
+                {this.props.state.copying ? <ProgressBar progressValue={progress} /> : ''}
+                {
+                    this.props.state.copying ?
+                    '' :
+                    <button onClick={this.handleSubmit} className="btn btn-primary">Submit</button>
+                }
             </div>
         );
     },

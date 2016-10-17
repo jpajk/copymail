@@ -35,12 +35,12 @@ def file_loaded(file):
 
         user1, host1, pass1, user2, host2, pass2 = connection_data
 
-        #try:
-        cpimap(user1, host1, pass1, user2, host2, pass2)
-        #except Exception as e:
-        #    Messages().relayError(
-        #        'server_error',
-        #        {
-        #            'message': str(e)
-        #        }
-        #    )
+        try:
+            cpimap(user1, host1, pass1, user2, host2, pass2)
+        except Exception as e:
+            Messages().relayError(
+                'server_error',
+                {
+                    'message': str(e)
+                }
+            )

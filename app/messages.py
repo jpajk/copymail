@@ -9,6 +9,16 @@ class Messages():
                 'currentMessage': (
                     lambda *x: "Copying messages from %s to %s" % x
                 )
+            },
+            'update_progress': {
+                'currentMessage': (
+                    lambda *x: "Copying contents of the box %s of %s" % x
+                )
+            },
+            'finish_progress': {
+                'currentMessage': (
+                    lambda *x: "Finished copying from %s to %s" % x
+                )
             }
         }
 
@@ -27,17 +37,17 @@ class Messages():
         self.__relayServerMessage(msg, key, args)
 
     def __calculateProgress(self, *args):
-        return 0
+        current, total = args
+        return round(current + 1 / total + 1, 2) * 100
 
     def __relayServerMessage(self, msg, key, args):
-        pprint(args)
         socketio.emit(
             key, {
                 'data': {
                     'currentMessage': msg['currentMessage'](*args['message']),
                     'progress': (
                         0 if key is 'server_error'
-                        else self.__calculateProgress(args['progress'])
+                        else self.__calculateProgress(*args['progress'])
                     )
                 }
             }
