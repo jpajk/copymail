@@ -37,8 +37,13 @@ class Messages():
         self.__relayServerMessage(msg, key, args)
 
     def __calculateProgress(self, *args):
+        pprint(args)
         current, total = args
-        return round(current + 1 / total + 1, 2) * 100
+
+        if total == 0:
+            return 100
+
+        return round(current / total, 2)
 
     def __relayServerMessage(self, msg, key, args):
         socketio.emit(

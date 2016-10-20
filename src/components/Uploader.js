@@ -23,7 +23,9 @@ const Uploader = React.createClass({
     },
 
     render() {
-        let progress = (this.props.state.copying) ? this.props.state.progress : 0;
+        let progress = (this.props.state.copying) ? (this.props.state.progress * 100) : 0;
+
+        console.log(progress);
 
         return (
             <div className="uploader-wrap">
