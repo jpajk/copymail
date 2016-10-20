@@ -2,7 +2,6 @@ from app import app, socketio
 from flask import render_template
 from .cpmails import cpimap
 from .messages import Messages
-from pprint import pprint
 import csv
 
 

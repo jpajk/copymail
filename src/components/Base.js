@@ -12,7 +12,7 @@ const Base = React.createClass({
             <div className="container">
                 <div className="row">
                     <div className="jumbotron">
-                        <h2>Upload CSV for the win</h2>
+                        <h2>co<span>py</span>mail</h2>
                         <Uploader
                             state={this.props.state}
                             handle={this.props.handle}
